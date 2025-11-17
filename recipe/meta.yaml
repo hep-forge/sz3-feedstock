@@ -27,11 +27,16 @@ requirements:
     - python
     - hdf5
     - zstd
-    - libgomp  # [linux]
-  run:
-    - python
+    - gsl
     - zstd
-    - libgomp  # [linux]
+    - libgomp       # GCC OpenMP runtime
+    - sysroot_linux-64  # glibc, libm, libpthread, etc.
+  run:
+    - gsl
+    - zstd
+    - libgomp
+    - sysroot_linux-64
+    - python
 
 about:
   home: "https://github.com/szcompressor/SZ3"
