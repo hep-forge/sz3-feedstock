@@ -1,0 +1,45 @@
+{% set versions = {
+    "3.3.1": "cbd952a26cebf62b01f159ac00cda499a1b2b58f55110b7507ad9bfb23020f13"
+} %}
+
+{% set version = environ.get('COMMIT_VERSION', None) %}
+{% set version = version or versions.keys()|first %}
+{% set version = version|string %}
+
+package:
+  name: {{ environ.get('ANACONDA_PACKAGE', "sz3")|string|lower }}
+  version: {{ environ.get('ANACONDA_VERSION', version)|replace("-", ".") }}
+
+source:
+  url: "https://github.com/szcompressor/SZ3/archive/refs/tags/v{{ version }}.tar.gz"
+  {% if versions.get(version, None) %}
+  sha256: {{ versions.get(version) }}
+  {% endif %}
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
+    - {{ compiler('gfortran') }}
+    - cmake
+    - make
+  host:
+    - python
+    - hdf5
+    - zstd
+    - libgomp  # [linux]
+  run:
+    - python
+    - zstd
+    - libgomp  # [linux]
+
+about:
+  home: "https://github.com/szcompressor/SZ3"
+  license: "BSD"
+  summary: "Error-bounded Lossy Data Compressor (for floating-point/integer datasets)"
+  description: |
+    SZ is a modular parametrizable lossy compressor framework for scientific data (floating point and integers). It has applications in simulations, AI and instruments. It is a production quality software and a research platform for lossy compression. SZ is open and transparent. 
+
+extra:
+  recipe-maintainers:
+    - meiyasan
