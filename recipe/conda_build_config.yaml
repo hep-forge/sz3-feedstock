@@ -1,5 +1,4 @@
 python:
-  - 3.10
   - 3.12
 
 is_python_min:
