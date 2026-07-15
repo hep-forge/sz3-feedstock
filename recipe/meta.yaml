@@ -30,13 +30,21 @@ requirements:
     - zstd
     - gsl
     - zstd
+    {% if osx %}
+    - llvm-openmp   # clang's OpenMP runtime; libgomp/sysroot_linux-64 don't exist here
+    {% else %}
     - libgomp       # GCC OpenMP runtime
     - sysroot_linux-64  # glibc, libm, libpthread, etc.
+    {% endif %}
   run:
     - gsl
     - zstd
+    {% if osx %}
+    - llvm-openmp
+    {% else %}
     - libgomp
     - sysroot_linux-64
+    {% endif %}
     - python
 
 about:
